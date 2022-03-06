@@ -50,10 +50,14 @@ module.exports = {
         const jsontoken = sign({ result: results },process.env.JWT_KEY, {
           expiresIn: "1h"
         });
+        const {id, firstName, email} = results
         return res.json({
+          id,
+          firstName,
+          email,
           success: 1,
           message: "login successfully",
-          token: jsontoken
+          token: jsontoken,
         });
       } else {
         return res.json({
