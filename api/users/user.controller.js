@@ -31,7 +31,7 @@ module.exports = {
   },
   login: (req, res) => {
     const body = req.body;
-    // console.log(req.body)
+    //console.log(req.body)
      getUserByUserEmail(body.email, async (err, results) => {
       if (err) {
         console.log(err);
@@ -42,19 +42,18 @@ module.exports = {
           data: "Invalid email or password"
         });
       }
-      //console.log(results)
       const result = compare(body.password, results.password);
-      //console.log(result)
       if (result) {
         results.password = undefined;
         const jsontoken = sign({ result: results },process.env.JWT_KEY, {
           expiresIn: "1h"
         });
-        const {id, firstName, email} = results
-        return res.json({
+        const {id, name, email,gender} = results
+        res.status(200).json({
           id,
-          firstName,
+          name,
           email,
+          gender,
           success: 1,
           message: "login successfully",
           token: jsontoken,

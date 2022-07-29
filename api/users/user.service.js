@@ -4,15 +4,14 @@ module.exports = {
   create: (data, callBack) => {
     
     pool.query(
-      `insert into registration(firstName, lastName, gender, email, password, number) 
-                values(?,?,?,?,?,?)`,
+      `insert into registration(name, email, password, gender, phone) 
+                values(?,?,?,?,?)`,
       [
-        data.firstName,
-        data.lastName,
-        data.gender,
+        data.name,
         data.email,
         data.password,
-        data.number
+        data.gender,
+        data.phone
       ],
       (error, results, fields) => {
         if (error) {
@@ -37,7 +36,7 @@ module.exports = {
   },
   getUserByUserId: (id, callBack) => {
     pool.query(
-      `select id,firstName,lastName,gender,email,number from registration where id = ?`,
+      `select id,name, email, gender, phone from registration where id = ?`,
       [id],
       (error, results, fields) => {
         if (error) {
@@ -49,7 +48,7 @@ module.exports = {
   },
   getUsers: callBack => {
     pool.query(
-      `select id,firstName,lastName,gender,email,number from registration`,
+      `select id,name, email, password, gender, phone from registration`,
       [],
       (error, results, fields) => {
         if (error) {
@@ -61,14 +60,13 @@ module.exports = {
   },
   updateUser: (data, callBack) => {
     pool.query(
-      `update registration set firstName=?, lastName=?, gender=?, email=?, password=?, number=? where id = ?`,
+      `update registration set name=?, email=?, password=?, gender=?, phone=? where id = ?`,
       [
-        data.firstName,
-        data.lastName,
-        data.gender,
+        data.name,
         data.email,
         data.password,
-        data.number,
+        data.gender,
+        data.phone,
         data.id
       ],
       (error, results, fields) => {
@@ -87,7 +85,7 @@ module.exports = {
         if (error) {
           callBack(error);
         }
-        return callBack(null, results[0]);
+        return callBack(null, results);
       }
     );
   }
